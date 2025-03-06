@@ -72,3 +72,23 @@ def get_secret():
     return create_secret(X,response)
 
 #add your route here
+
+@app.route('/ex1', methods=['GET'])
+def ex1():
+    X = request.args.get('a', '',type = str)
+    
+    D = sum(c.isdigit() for c in X)
+    C = sum(c.isalpha() for c in X)
+    
+    if D == 0 or C == 0:
+         return make_response(jsonify(s="Invalid Input"), 400)
+    
+    # Perform integer division
+    result = D // C
+    
+    # Return the result in a JSON response
+    return make_response(jsonify(s=result), 200)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

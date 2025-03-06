@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  ex1:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "8089:5001"
+    secrets:
+      - asekey
+      - asecert
+    command: flask run --cert=/run/secrets/asecert --key=/run/secrets/asekey --host=0.0.0.0 --port=5001
+
+  locust:
+    build:
+      context: .
+      dockerfile: Dockerfile.locust
+    ports:
+      - "8090:8089"
+
+secrets:
+  asekey:
+    file: ./app/asekey.pem
+  asecert:
+    file: ./app/asecert.pem
